@@ -14,7 +14,7 @@ const User = mongoose.model('User')
 
 app.use(bodyParser.json());
 
-app.post('/api/users', async (req, res)=>{
+app.post('/api/users', (req, res)=>{
   console.log(req.body)
 
   const { page } = req.body.payload
@@ -34,7 +34,7 @@ app.post('/api/users', async (req, res)=>{
 
 });
 
-app.post('/api/user', async (req, res)=>{
+app.post('/api/user', (req, res)=>{
   console.log(req.body, 'fetch user')
 
   const { name } = req.body.payload
