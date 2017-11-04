@@ -19,7 +19,7 @@ app.post('/api/users', (req, res)=>{
 
   const { page } = req.body.payload
 
-  const users = await User
+  const users = User
     .find({})
     .sort({login: '1'})
     .skip(page * 15 - 15)
@@ -39,7 +39,7 @@ app.post('/api/user', (req, res)=>{
 
   const { name } = req.body.payload
 
-  const users = await User
+  const users = User
     .find({login: name})
     .exec((err, users) => {
       if(err){
@@ -54,7 +54,7 @@ app.get('/api/user/:id', (req, res)=>{
 
   console.log(req.params.id, 'user id')
 
-  const user =  User
+  const user = User
     .findById(req.params.id)
     .exec((err, user) => {
       if(err){
