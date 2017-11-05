@@ -78,15 +78,15 @@ app.post('/api/user/:id', (req, res)=>{
     })
 });
 
+if(process.env.NODE_ENV === 'production'){
+  app.use(express.static('client/build'));
 
-app.use(express.static('client/build'));
-
-const path = require('path');
-//если не находим нужный роут на сервере загружаем react-create-app build
-app.get('*', (req, res)=>{
-  res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-});
-
+  const path = require('path');
+  //если не находим нужный роут на сервере загружаем react-create-app build
+  app.get('*', (req, res)=>{
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
 
 const PORT = process.env.PORT || 3002
 

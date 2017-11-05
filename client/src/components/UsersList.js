@@ -26,8 +26,8 @@ class UsersList extends Component {
 
   handleUsers(users){
 
-
-    if(users && users.length > 0 && !users.loaded ){
+    console.log(users, 'users');
+    if(users  && !users.loaded ){
       return users.map((user, index) => {
           return (
                   <Link key={index} to={`/${user._id}`}>
