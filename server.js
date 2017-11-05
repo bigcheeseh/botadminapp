@@ -64,6 +64,12 @@ app.get('/api/user/:id', (req, res)=>{
 
 });
 
+app.get('/hi', (req, res)=>{
+
+  res.send('Hello world')
+
+});
+
 app.post('/api/user/:id', (req, res)=>{
 
   const { userId, login, avatar_url } = req.body
