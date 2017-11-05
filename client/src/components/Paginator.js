@@ -14,7 +14,7 @@ class Paginator extends Component{
   render(){
     const { current, onChange } = this.props
       return (
-        <Pagination current={current} total={100} onChange={onChange} style={{padding: '5px 5px 5px 0'}}/>
+        <Pagination current={current} total={this.state.totalPageAmount} onChange={onChange} style={{padding: '5px 5px 5px 0'}}/>
       )
     }
   }
