@@ -20,7 +20,7 @@ app.get('/api/users/amount', (req, res)=>{
     .find({})
     .exec((err, users)=>{
       const usersAmount = users.length
-      res.send({length: users.length, USERS_AMOUNT_ON_PAGE});
+      res.send({length: users.length, USERS_AMOUNT_ON_PAGE: 15});
     })
 
 })
@@ -31,9 +31,9 @@ app.post('/api/users', (req, res)=>{
     .find({})
     .sort({login: '1'})
     //в зависимости от номера страницы пропускаем первых юзеров
-    .skip(page * USERS_AMOUNT_ON_PAGE - USERS_AMOUNT_ON_PAGE)
+    .skip(page * 15 - 15)
     // выгружаем максимум USERS_AMOUNT_ON_PAGE юзеров на страницу
-    .limit(USERS_AMOUNT_ON_PAGE)
+    .limit(15)
     .exec((err, users) => {
       if(err){
         console.log(err, 'users')
