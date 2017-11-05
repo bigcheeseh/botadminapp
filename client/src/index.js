@@ -13,6 +13,8 @@ import reducer from './reducers'
 
 const sagaMiddleware = createSagaMiddleware();
 
+// Create the store with two middlewares
+// sagaMiddleware: Makes redux-sagas work
 const middlewares = [
   sagaMiddleware,
   thunk

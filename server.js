@@ -9,35 +9,41 @@ mongoose.connect(keys.MONGO_URL,{ useMongoClient: true });
 
 require('./models/user.js')
 
-const User = mongoose.model('User')
+const User = mongoose.model('User');
+const { USERS_AMOUNT_ON_PAGE } = keys;
 
 app.use(bodyParser.json());
 
+app.get('/api/users/amount', (req, res)=>{
+   // считаем количество юзеров для расчёта количества страниц в пагинаторе
+   const users = User
+    .find({})
+    .exec((err, users)=>{
+      const usersAmount = users.length
+      res.send({length: users.length, USERS_AMOUNT_ON_PAGE});
+    })
+
+})
+
 app.post('/api/users', (req, res)=>{
-  console.log(req.body)
-
   const { page } = req.body.payload
-
   const users = User
     .find({})
     .sort({login: '1'})
-    .skip(page * 15 - 15)
-    .limit(15)
+    //в зависимости от номера страницы пропускаем первых юзеров
+    .skip(page * USERS_AMOUNT_ON_PAGE - USERS_AMOUNT_ON_PAGE)
+    // выгружаем максимум USERS_AMOUNT_ON_PAGE юзеров на страницу
+    .limit(USERS_AMOUNT_ON_PAGE)
     .exec((err, users) => {
       if(err){
         console.log(err, 'users')
       }
-
       res.send(users)
     })
-
 });
 
 app.post('/api/user', (req, res)=>{
-  console.log(req.body, 'fetch user')
-
   const { name } = req.body.payload
-
   const users = User
     .find({login: name})
     .exec((err, users) => {
@@ -46,13 +52,9 @@ app.post('/api/user', (req, res)=>{
       }
       res.send(users)
     })
-
 });
 
 app.get('/api/user/:id', (req, res)=>{
-
-  console.log(req.params.id, 'user id')
-
   const user = User
     .findById(req.params.id)
     .exec((err, user) => {
@@ -64,38 +66,27 @@ app.get('/api/user/:id', (req, res)=>{
 
 });
 
-app.get('/hi', (req, res)=>{
-
-  res.send('Hello world')
-
-});
 
 app.post('/api/user/:id', (req, res)=>{
-
   const { userId, login, avatar_url } = req.body
-
-  console.log(userId, login, avatar_url, 'user update');
-
   const user = User
     .findByIdAndUpdate(userId, { $set:{ login, avatar_url } }, { new: true}, (err, user)=>{
         if(err){
           console.log(err, 'user update error')
         }
-
         res.send(user)
     })
-
 });
 
+if(process.env.NODE_ENV === 'production'){
+  app.use(express.static('client/build'));
 
-app.use(express.static('client/build'));
-
-const path = require('path');
-
-app.get('*', (req, res)=>{
-  res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-});
-
+  const path = require('path');
+  //если не находим нужный роут на сервере загружаем react-create-app build
+  app.get('*', (req, res)=>{
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
 
 const PORT = process.env.PORT || 3002
 

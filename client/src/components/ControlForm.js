@@ -14,8 +14,6 @@ class ControlForm extends Component{
     this.props.form.validateFields((err, values) => {
       if (!err) {
         values.userId = this.props.user._id;
-        console.log('Received values of form: ', this.props.user);
-
         this.props.changeUserData(values)
       }
     });
@@ -36,7 +34,8 @@ class ControlForm extends Component{
           )}
         </FormItem>
         <FormItem
-        label='Avatar URL'>
+         label='Avatar URL'
+         >
           {getFieldDecorator('avatar_url', {
             rules: [{ required: true, message: 'Please input avatar url!' }],
             initialValue: this.props.user.avatar_url

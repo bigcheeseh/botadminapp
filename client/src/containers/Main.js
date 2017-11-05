@@ -17,30 +17,25 @@ class Main extends Component {
         current: 1,
       }
       handleCurrentPage = ( page ) => {
-
         this.setState({current: page})
-
-
+        //отправляем номер страницы для сортировки и загрузки юзеров на данной странице
         this.props.fetchUsers({ page })
       }
       searchUser = (value) => {
-        console.log(value)
         this.props.fetchUser({ name: value })
       }
       render(){
-
          return (
-           <Content style={{padding: 36 }}>
-              <Row>
-               <Col md={{span: 16, offset: 4}} sm={{span:24}} xs={{span:24}}>
-                <SearchUser searchUser={this.searchUser} />
-
-                <Paginator current={this.state.current} onChange={this.handleCurrentPage}/>
-                  <UsersList/>
-                <Paginator current={this.state.current} onChange={this.handleCurrentPage}/>
-               </Col>
-              </Row>
-          </Content>
+             <Content style={{padding: 24 }}>
+                <Row>
+                 <Col md={{span: 16, offset: 4}} sm={{span:24}} xs={{span:24}}>
+                  <SearchUser searchUser={this.searchUser} />
+                    <Paginator current={this.state.current} onChange={this.handleCurrentPage}/>
+                      <UsersList/>
+                    <Paginator current={this.state.current} onChange={this.handleCurrentPage}/>
+                 </Col>
+                </Row>
+            </Content>
          )
       }
 }

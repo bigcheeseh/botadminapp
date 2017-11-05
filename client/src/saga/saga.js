@@ -5,11 +5,11 @@ import axios from 'axios'
 const fetchUsers = (action) => () => axios.post('/api/users', action);
 const fetchUser = (action) => () => axios.post('/api/user', action);
 const findUserById = (action) => () => axios.get(`/api/user/${action.payload.userId}`);
-const changeUser = (action) => () => axios.post(`/api/user/${action.payload.userId}`, action.payload);
+const changeUserData = (action) => () => axios.post(`/api/user/${action.payload.userId}`, action.payload);
 
 
 function* fetchUsersAsync(action){
-    // пока ждем ответа с сервера запускаем спинер загрузки
+    // пока ждем ответа сервера, запускаем спинер загрузки
     yield put({ type: 'FETCH_USERS', payload: {loaded: true} })
     const response = yield call(fetchUsers(action))
     yield put({ type: 'FETCH_USERS', payload: response.data})
@@ -30,17 +30,16 @@ function* findUserByIdAsync(action){
 
 }
 
-function* changeUserData(action){
+function* changeUserDataAsync(action){
 
-  const response = yield call(changeUser(action))
+  const response = yield call(changeUserData(action))
   yield put({ type: 'FIND_USER_BY_ID', payload: response.data})
 
 }
-
 
 export default function* rootSaga(){
     yield takeEvery('FETCH_USERS_ASYNC', fetchUsersAsync)
     yield takeEvery('FETCH_USER_ASYNC', fetchUserAsync)
     yield takeEvery('FIND_USER_BY_ID_ASYNC', findUserByIdAsync)
-    yield takeEvery('CHANGE_USER_DATA_ASYNC', changeUserData)
+    yield takeEvery('CHANGE_USER_DATA_ASYNC', changeUserDataAsync)
 }

@@ -3,7 +3,7 @@
 .user_login{
   display: inline-block;
   float: right;
-  font-size: 2.5em;
+  font-size: 3vw;
 }
 
 .custom-image img {
@@ -28,4 +28,13 @@
   vertical-align: middle;
   text-align: center;
   color: '#555'
+}
+
+.loading_spiner__container {
+    position: relative;
+    height: 700px;
+}
+.loading_spiner {
+   position: absolute;
+   width: 100%;
 }

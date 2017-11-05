@@ -4,7 +4,6 @@ import { FETCH_USERS, FETCH_USER, FIND_USER_BY_ID } from '../actions/types'
 export const fetchUsers = (state = [], action) => {
   switch (action.type) {
     case FETCH_USERS:
-      console.log(action, 'change data')
       return action.payload
     default:
       return state

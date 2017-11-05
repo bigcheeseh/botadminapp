@@ -11,6 +11,7 @@ const { Content } = Layout
 class UserPage extends Component{
 
   componentWillMount(){
+    // используем параметры url для поиская юзера по id
     this.props.findUserById(this.props.match.params)
   }
 
