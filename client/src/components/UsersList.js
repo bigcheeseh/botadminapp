@@ -26,7 +26,6 @@ class UsersList extends Component {
 
   handleUsers(users){
 
-    console.log(users, 'users');
     if(users  && !users.loaded ){
       return users.map((user, index) => {
           return (
